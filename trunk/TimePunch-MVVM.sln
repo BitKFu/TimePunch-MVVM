@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePunch-WPF-MVVM", "TimePunch-WPF-MVVM\TimePunch-WPF-MVVM.csproj", "{27A501B0-9B90-4CA4-A5E3-EC4939720B71}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePunchIntroPlayerUWP", "TimePunchIntroPlayerUWP\TimePunchIntroPlayerUWP.csproj", "{F8E757E7-696D-4877-8C14-44199A0EDDB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePunchIntroPlayer", "TimePunchIntroPlayer\TimePunchIntroPlayer.csproj", "{6CAE0AA5-A118-4ADE-9C80-CE450BF9FF04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePunch-WPF-MVVM-4.6.2", "TimePunch-WPF-MVVM-4.6.2\TimePunch-WPF-MVVM-4.6.2.csproj", "{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +141,26 @@ Global
 		{6CAE0AA5-A118-4ADE-9C80-CE450BF9FF04}.Release|x64.Build.0 = Release|Any CPU
 		{6CAE0AA5-A118-4ADE-9C80-CE450BF9FF04}.Release|x86.ActiveCfg = Release|Any CPU
 		{6CAE0AA5-A118-4ADE-9C80-CE450BF9FF04}.Release|x86.Build.0 = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|x64.Build.0 = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Debug|x86.Build.0 = Debug|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|ARM.Build.0 = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|ARM64.Build.0 = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|x64.ActiveCfg = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|x64.Build.0 = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +171,7 @@ Global
 		{A39BF13F-D92F-4F07-8DA0-718D50FCCD5F} = {1B4BCDF9-3DF9-4BAF-B842-567A9BE08B93}
 		{F8E757E7-696D-4877-8C14-44199A0EDDB1} = {2579FBE4-4010-4B3B-B4FA-4C968F6C2B15}
 		{6CAE0AA5-A118-4ADE-9C80-CE450BF9FF04} = {2579FBE4-4010-4B3B-B4FA-4C968F6C2B15}
+		{A7C19DE8-B7A4-435A-A62D-A79EA22550CC} = {1B4BCDF9-3DF9-4BAF-B842-567A9BE08B93}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99404620-F968-4BA7-9DC1-E19045BBD1F6}
