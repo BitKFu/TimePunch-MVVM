@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>TimePunch_Core2_MVVM</RootNamespace>
+  </PropertyGroup>
+
+</Project>
