@@ -5,10 +5,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TimePunch.MVVM.Events;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace TimePunch.MVVM.Commands
 {

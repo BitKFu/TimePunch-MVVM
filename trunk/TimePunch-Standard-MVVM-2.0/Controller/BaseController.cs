@@ -3,10 +3,7 @@
 // All other rights reserved.
 
 using System;
-using System.Reflection;
 using TimePunch.MVVM.EventAggregation;
-using TimePunch.MVVM.Events;
-using TimePunch.MVVM.ViewModels;
 
 namespace TimePunch.MVVM.Controller
 {
