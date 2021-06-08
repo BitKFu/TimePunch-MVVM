@@ -106,9 +106,16 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\TimePunch-Standard-MVVM-2.0\Controller\IKernel.cs">
+      <Link>Controller\IKernel.cs</Link>
+    </Compile>
+    <Compile Include="..\TimePunch-Standard-MVVM-2.0\Controller\Kernel.cs">
+      <Link>Controller\Kernel.cs</Link>
+    </Compile>
     <Compile Include="Commands\DynamicCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Controller\BaseController.cs" />
+    <Compile Include="Controller\IBaseController.cs" />
     <Compile Include="EventAggregation\EventAggregator.cs" />
     <Compile Include="EventAggregation\IEventAggregator.cs" />
     <Compile Include="EventAggregation\IHandleMessage.cs" />

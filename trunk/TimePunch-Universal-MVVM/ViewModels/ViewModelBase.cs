@@ -43,11 +43,6 @@ namespace TimePunch.MVVM.ViewModels
         #region Fields
 
         /// <summary>
-        ///     loading indicator lock object
-        /// </summary>
-        private static readonly object IsLoadingLock = new object();
-
-        /// <summary>
         ///     counter for the loading indicator
         /// </summary>
         private int isLoadingCounter;
@@ -240,32 +235,25 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         public bool IsLoading
         {
-            get { return GetPropertyValue(() => IsLoading); }
+            get
+            {
+                return GetPropertyValue(() => IsLoading);
+            }
 
             set
             {
-                Monitor.Enter(IsLoadingLock);
-
-                try
+                if (value)
                 {
-                    if (value)
-                    {
-                        ++isLoadingCounter;
-                    }
-                    else
-                    {
-                        --isLoadingCounter;
-                        if (isLoadingCounter < 0)
-                            isLoadingCounter = 0;
-                    }
-
-                    var isLoading = isLoadingCounter > 0;
-                    SetPropertyValue(() => IsLoading, isLoading);
+                    Interlocked.Increment(ref isLoadingCounter);
                 }
-                finally
+                else
                 {
-                    Monitor.Exit(IsLoadingLock);
+                    if (Interlocked.Decrement(ref isLoadingCounter) < 0)
+                        isLoadingCounter = 0;
                 }
+
+                var isLoading = isLoadingCounter > 0;
+                SetPropertyValue(() => IsLoading, isLoading);
             }
         }
 

@@ -19,7 +19,7 @@ namespace TimePunch.MVVM.Controller
     /// <summary>
     ///     Base class for module specific controllers
     /// </summary>
-    public abstract class BaseController :
+    public abstract class BaseController : TimePunch.MVVM.Controller.IBaseController,
         IHandleMessage<GoBackNavigationRequest>
     {
         #region Members
@@ -42,9 +42,8 @@ namespace TimePunch.MVVM.Controller
         /// <summary>
         ///     This method can do some initializations
         /// </summary>
-        public virtual void Init(Frame rootFrame)
+        public virtual void Init()
         {
-            SetContentFrame(rootFrame);
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace TimePunch.MVVM.Controller
         /// Attaches the controller to the root frame
         /// </summary>
         /// <param name="contentFrame">The Content Frame</param>
-        protected virtual void SetContentFrame(Frame contentFrame)
+        public virtual void SetContentFrame(Frame contentFrame)
         {
             if (contentFrame != null)
             {
@@ -263,7 +262,6 @@ namespace TimePunch.MVVM.Controller
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             
         }
-
         #endregion
     }
 }

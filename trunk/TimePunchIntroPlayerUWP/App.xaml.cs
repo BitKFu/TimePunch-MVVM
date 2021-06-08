@@ -52,7 +52,8 @@ namespace TimePunchIntroPlayerUWP
             }
 
             UWPController = new TimePunchIntroPlayerUWPController();
-            UWPController.Init(rootFrame);
+            UWPController.Init();
+            UWPController.SetContentFrame(rootFrame);
 
             if (e.PrelaunchActivated == false)
             {

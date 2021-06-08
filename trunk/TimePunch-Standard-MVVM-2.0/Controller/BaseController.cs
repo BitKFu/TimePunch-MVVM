@@ -10,7 +10,7 @@ namespace TimePunch.MVVM.Controller
     /// <summary>
     ///     Base class for module specific controllers
     /// </summary>
-    public abstract class BaseController
+    public abstract class BaseController : IBaseController
     {
         #region Constructors
 
@@ -30,6 +30,13 @@ namespace TimePunch.MVVM.Controller
         ~BaseController()
         {
             EventAggregator.Unsubscribe(this);
+        }
+
+        /// <summary>
+        /// Used for intialization
+        /// </summary>
+        public virtual void Init()
+        {
         }
 
         #endregion Constructors

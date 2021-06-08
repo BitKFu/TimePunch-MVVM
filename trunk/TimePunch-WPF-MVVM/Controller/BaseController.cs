@@ -19,7 +19,7 @@ namespace TimePunch.MVVM.Controller
     /// <summary>
     /// Base class for module specific controllers
     /// </summary>
-    public abstract class BaseController :
+    public abstract class BaseController : IBaseController,
         IHandleMessage<GoBackNavigationRequest>
     {
         private NavigationMode navigationMode;
@@ -38,9 +38,8 @@ namespace TimePunch.MVVM.Controller
         /// <summary>
         /// This method can do some initializations
         /// </summary>
-        public virtual void Init(Frame rootFrame)
+        public virtual void Init()
         {
-            SetContentFrame(rootFrame);
         }
 
         /// <summary>
