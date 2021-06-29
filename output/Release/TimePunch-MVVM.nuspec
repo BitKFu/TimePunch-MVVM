@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>TimePunch-MVVM</id>
+    <version>0.5.0</version>
+    <title>TimePunch MVVM</title>
+    <authors>TimePunch KG</authors>
+    <owners>TimePunch KG</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/BitKFu/TimePunch-MVVM</projectUrl>
+    <iconUrl>http://www.timepunch.de/wp-artwork/tpmvvm.png</iconUrl>
+    <description>A clean and simple implementation of the MVVM pattern for WPF and UWP apps.</description>
+  </metadata>
+  <files>
+    <file src="lib\net452\TpMVVM_Wpf.dll" target="lib\net452\TpMVVM_Wpf.dll" />
+    <file src="lib\net452\TpMVVM_Wpf.pdb" target="lib\net452\TpMVVM_Wpf.pdb" />
+    <file src="lib\net462\TpMVVM_Wpf.dll" target="lib\net462\TpMVVM_Wpf.dll" />
+    <file src="lib\net462\TpMVVM_Wpf.pdb" target="lib\net462\TpMVVM_Wpf.pdb" />
+    <file src="lib\net472\TpMVVM_Wpf.dll" target="lib\net472\TpMVVM_Wpf.dll" />
+    <file src="lib\net472\TpMVVM_Wpf.pdb" target="lib\net472\TpMVVM_Wpf.pdb" />
+    <file src="lib\netcoreapp3.0\TimePunch-Core3-MVVM.deps.json" target="lib\netcoreapp3.0\TimePunch-Core3-MVVM.deps.json" />
+    <file src="lib\netcoreapp3.0\TimePunch-Core3-MVVM.dll" target="lib\netcoreapp3.0\TimePunch-Core3-MVVM.dll" />
+    <file src="lib\netcoreapp3.0\TimePunch-Core3-MVVM.pdb" target="lib\netcoreapp3.0\TimePunch-Core3-MVVM.pdb" />
+    <file src="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.deps.json" target="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.deps.json" />
+    <file src="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.dll" target="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.dll" />
+    <file src="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.pdb" target="lib\netstandard2.0\TimePunch-Standard-MVVM-2.0.pdb" />
+    <file src="lib\uap\TpMVVM_Universal.dll" target="lib\uap\TpMVVM_Universal.dll" />
+    <file src="lib\uap\TpMVVM_Universal.pdb" target="lib\uap\TpMVVM_Universal.pdb" />
+    <file src="lib\uap\TpMVVM_Universal.pri" target="lib\uap\TpMVVM_Universal.pri" />
+  </files>
+</package>
