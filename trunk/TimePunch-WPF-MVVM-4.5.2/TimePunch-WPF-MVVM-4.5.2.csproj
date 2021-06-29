@@ -93,20 +93,19 @@
     <Compile Include="..\TimePunch-WPF-MVVM\Events\NavigationEvent.cs">
       <Link>Events\NavigationEvent.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\TimePunch-WPF-MVVM\ViewModels\DialogResult.cs">
       <Link>ViewModels\DialogResult.cs</Link>
     </Compile>
     <Compile Include="..\TimePunch-WPF-MVVM\ViewModels\ViewModelBase.cs">
       <Link>ViewModels\ViewModelBase.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TimePunch-WPF-MVVM\TpMVVM.snk">
       <Link>TpMVVM.snk</Link>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
