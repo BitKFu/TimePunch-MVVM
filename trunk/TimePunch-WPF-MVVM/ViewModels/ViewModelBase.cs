@@ -338,7 +338,14 @@ namespace TimePunch.MVVM.ViewModels
         /// <param name="propertyName">the name of the property</param>
         protected void OnPropertyChanged(string propertyName)
         {
-            RaisePropertyChanged(propertyName, true, new Dictionary<string, Object>(), new Dictionary<ICommand, Object>());
+            try
+            {
+                RaisePropertyChanged(propertyName, true, new Dictionary<string, Object>(), new Dictionary<ICommand, Object>());
+            }
+            catch (NullReferenceException)
+            {
+                // that's not nice, but we can ignore it
+            }
         }
 
         /// <summary>
@@ -347,8 +354,15 @@ namespace TimePunch.MVVM.ViewModels
         /// <typeparam name="T">the type of the property</typeparam>
         protected void OnPropertyChanged<T>(Expression<Func<T>> propertyAccessor, bool notifyDependentProperties = true)
         {
-            var propertyName = GetPropertyName(propertyAccessor);
-            RaisePropertyChanged(propertyName, notifyDependentProperties, new Dictionary<string, Object>(), new Dictionary<ICommand, Object>());
+            try
+            {
+                var propertyName = GetPropertyName(propertyAccessor);
+                RaisePropertyChanged(propertyName, notifyDependentProperties, new Dictionary<string, Object>(), new Dictionary<ICommand, Object>());
+            }
+            catch (NullReferenceException)
+            {
+                // that's not nice, but we can ignore it
+            }
         }
 
         /// <summary>
