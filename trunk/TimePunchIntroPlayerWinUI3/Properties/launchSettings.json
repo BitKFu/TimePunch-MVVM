@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TimePunchIntroPlayerWinUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TimePunchIntroPlayerWinUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

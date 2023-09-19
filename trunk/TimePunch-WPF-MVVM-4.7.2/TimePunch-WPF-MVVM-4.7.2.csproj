@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A39BF13F-D92F-4F07-8DA0-718D50FCCD5F}</ProjectGuid>
+    <ProjectGuid>{9233B1AC-B061-40E2-8923-05242D57EC53}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TimePunch.MVVM</RootNamespace>
     <AssemblyName>TpMVVM_Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\output\Debug\lib\net452\</OutputPath>
+    <OutputPath>..\..\output\Debug\lib\net472\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\output\Release\lib\net452\</OutputPath>
+    <OutputPath>..\..\output\Release\lib\net472\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,46 +57,46 @@
     <Compile Include="..\TimePunch-Standard-MVVM-2.0\Controller\Kernel.cs">
       <Link>Controller\Kernel.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Commands\DynamicCommand.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\commands\DynamicCommand.cs">
       <Link>Commands\DynamicCommand.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Commands\RelayCommand.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\commands\RelayCommand.cs">
       <Link>Commands\RelayCommand.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Controller\BaseController.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\controller\BaseController.cs">
       <Link>Controller\BaseController.cs</Link>
     </Compile>
     <Compile Include="..\TimePunch-WPF-MVVM\Controller\IBaseController.cs">
       <Link>Controller\IBaseController.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\EventAggregation\EventAggregator.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\eventaggregation\EventAggregator.cs">
       <Link>EventAggregation\EventAggregator.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\EventAggregation\IEventAggregator.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\eventaggregation\IEventAggregator.cs">
       <Link>EventAggregation\IEventAggregator.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\EventAggregation\IHandleMessage.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\eventaggregation\IHandleMessage.cs">
       <Link>EventAggregation\IHandleMessage.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\EventAggregation\IHandleMessageAsync.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\eventaggregation\IHandleMessageAsync.cs">
       <Link>EventAggregation\IHandleMessageAsync.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Events\GoBackNavigationRequest.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\events\GoBackNavigationRequest.cs">
       <Link>Events\GoBackNavigationRequest.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Events\NavigatedEvent.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\events\NavigatedEvent.cs">
       <Link>Events\NavigatedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Events\NavigationCompletedEvent.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\events\NavigationCompletedEvent.cs">
       <Link>Events\NavigationCompletedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\Events\NavigationEvent.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\events\NavigationEvent.cs">
       <Link>Events\NavigationEvent.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\ViewModels\DialogResult.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\viewmodels\DialogResult.cs">
       <Link>ViewModels\DialogResult.cs</Link>
     </Compile>
-    <Compile Include="..\TimePunch-WPF-MVVM\ViewModels\ViewModelBase.cs">
+    <Compile Include="..\timepunch-wpf-mvvm\viewmodels\ViewModelBase.cs">
       <Link>ViewModels\ViewModelBase.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +106,5 @@
       <Link>TpMVVM.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -194,15 +194,6 @@ namespace TimePunch.MVVM.Controller
                 if (CurrentPage.Dispatcher.HasThreadAccess)
                 {
                     ContentFrame.Navigate(navigateToPage, message);
-                    //PasswordBoxAssistant.IsNavigating = true;
-                    //try
-                    //{
-                    //    ContentFrame.Navigate(navigateToPage, message);
-                    //}
-                    //finally
-                    //{
-                    //    PasswordBoxAssistant.IsNavigating = false;
-                    //}
                 }
                 else
                     CurrentPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => NavigateToPage(navigateToPage, message));

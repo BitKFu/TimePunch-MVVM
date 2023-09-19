@@ -58,7 +58,7 @@ namespace TimePunch.MVVM.Commands
         ///     Gets or sets the current dispatcher.
         /// </summary>
         /// <value>The current dispatcher.</value>
-        protected virtual TaskScheduler CurrentDispatcher => TaskScheduler.FromCurrentSynchronizationContext();
+        protected virtual TaskScheduler TaskScheduler => TaskScheduler.FromCurrentSynchronizationContext();
 
         /// <summary>
         ///     Defines the method to be called when the command is invoked.
@@ -108,14 +108,14 @@ namespace TimePunch.MVVM.Commands
             if (handler == null)
                 return;
 
-            if (Task.Factory.Scheduler == CurrentDispatcher)
+            if (Task.Factory.Scheduler == TaskScheduler)
                 handler(this, EventArgs.Empty); // already on the UI thread
             else
                 Task.Factory.StartNew(
-                    ()=> handler(this, EventArgs.Empty), 
-                    CancellationToken.None, 
-                    TaskCreationOptions.None, 
-                    CurrentDispatcher); // place the action on the Dispatcher of the UI thread
+                    () => handler(this, EventArgs.Empty),
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler); // place the action on the Dispatcher of the UI thread
         }
     }
 }

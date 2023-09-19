@@ -44,7 +44,7 @@
 
         <Image
             Grid.Row="3"
-            Source="https://images.wallpaperscraft.com/image/pier_dock_sea_dusk_shore_118549_1280x720.jpg"
+            Source="/Assets/lighthouse-8191282_1280.jpg"
             Stretch="Uniform" />
 
 

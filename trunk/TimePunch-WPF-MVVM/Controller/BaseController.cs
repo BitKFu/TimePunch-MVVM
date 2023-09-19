@@ -161,15 +161,6 @@ namespace TimePunch.MVVM.Controller
                         return;
 
                     CurrentPage.NavigationService.Navigate(new Uri(navigateToPage, UriKind.Relative));
-                    //PasswordBoxAssistant.IsNavigating = true;
-                    //try
-                    //{
-                    //    CurrentPage.NavigationService.Navigate(new Uri(navigateToPage, UriKind.Relative));
-                    //}
-                    //finally
-                    //{
-                    //    PasswordBoxAssistant.IsNavigating = false;
-                    //}
                 }
                 else
                     CurrentPage.Dispatcher.BeginInvoke((ThreadStart)(() => NavigateToPage(navigateToPage)));
