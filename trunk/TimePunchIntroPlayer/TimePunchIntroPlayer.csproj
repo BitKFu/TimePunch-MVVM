@@ -164,12 +164,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TimePunch-WPF-MVVM\TimePunch-WPF-MVVM.csproj">
-      <Project>{27a501b0-9b90-4ca4-a5e3-ec4939720b71}</Project>
-      <Name>TimePunch-WPF-MVVM</Name>
+    <ProjectReference Include="..\TimePunch-MVVM\TimePunch-MVVM.csproj">
+      <Project>{485fdfbb-171b-4278-8c0f-b70001ae4300}</Project>
+      <Name>TimePunch-MVVM</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\lighthouse-8191282_1280.jpg" />
   </ItemGroup>
