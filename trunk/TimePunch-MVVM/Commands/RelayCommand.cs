@@ -135,6 +135,10 @@ namespace TimePunch.MVVM.Commands
 
         public event EventHandler CanExecuteChanged;
 
+#if NETSTANDARD || NET
+        private TaskScheduler? CurrentTaskScheduler => Task.Factory.Scheduler ?? TaskScheduler.Current;
+#endif
+
         /// <summary>
         ///     Raises the can execute changed.
         /// </summary>
@@ -145,7 +149,7 @@ namespace TimePunch.MVVM.Commands
                 return;
 
 #if NETSTANDARD || NET
-            if (Task.Factory.Scheduler == CurrentDispatcher)
+            if (CurrentTaskScheduler == CurrentDispatcher)
                 handler(this, EventArgs.Empty); // already on the UI thread
             else
                 Task.Factory.StartNew(

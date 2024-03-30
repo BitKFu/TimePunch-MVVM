@@ -526,7 +526,7 @@ namespace TimePunch.MVVM.ViewModels
 #if NET
         protected virtual DispatcherQueue Dispatcher { get; private set; }
 
-        protected bool IsUIThread => Dispatcher?.HasThreadAccess ?? false;
+        protected bool IsUiThread => Dispatcher?.HasThreadAccess ?? false;
 #endif
 
         /// <summary>
@@ -549,7 +549,7 @@ namespace TimePunch.MVVM.ViewModels
 
 #if NET
                 // check, if we have access to the UI thread
-                if (IsUIThread)
+                if (IsUiThread)
                     action(); // execute directly
                 else
                     Dispatcher.TryEnqueue(() => action()); // place the action on the Dispatcher of the UI thread
@@ -581,7 +581,6 @@ namespace TimePunch.MVVM.ViewModels
             }
         }
 
-#if NETFRAMEWORK
 
         /// <summary>
         /// Performs an delayed action on the UI thread
@@ -589,6 +588,11 @@ namespace TimePunch.MVVM.ViewModels
         /// <param name="action">the action to execute</param>
         public virtual void DispatchDelayed(Action action)
         {
+#if NETSTANDARD
+            Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.None, Dispatcher); // place the action on the Dispatcher of the UI thread
+#endif
+
+#if NETFRAMEWORK
             if (Dispatcher == null)
                 action();
             else
@@ -597,9 +601,13 @@ namespace TimePunch.MVVM.ViewModels
                 action(); // execute directly
             else
                 Dispatcher.BeginInvoke(action); // place the action on the Dispatcher of the UI thread
+#endif
+
+#if NET
+            Dispatcher.TryEnqueue(() => action()); // place the action on the Dispatcher of the UI thread
+#endif
         }
 
-#endif
 
         /// <summary>
         ///     Executes an action asynchronously.
@@ -676,7 +684,7 @@ namespace TimePunch.MVVM.ViewModels
 #endif
         }
 
-        #endregion
+#endregion
 
         #region Disposing
 

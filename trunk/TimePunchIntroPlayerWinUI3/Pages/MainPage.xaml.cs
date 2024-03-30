@@ -106,8 +106,15 @@ namespace TimePunchIntroPlayerWinUI3.Pages
 
         private void VideoPlayer_MediaEnded(MediaPlayer sender, object e)
         {
-            VideoPlayer.MediaPlayer.Position = TimeSpan.Zero;
-            VideoPlayer.MediaPlayer.Play();
+            try
+            {
+                VideoPlayer.MediaPlayer.Position = TimeSpan.Zero;
+                VideoPlayer.MediaPlayer.Play();
+            }
+            catch
+            {
+                // do nothing
+            }
         }
 
         private void VideoPlayer_MediaFailed(MediaPlayer sender, object e)

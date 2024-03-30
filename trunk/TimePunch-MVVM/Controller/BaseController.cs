@@ -287,7 +287,7 @@ namespace TimePunch.MVVM.Controller
         /// <summary>
         /// True, if the current thread is the UI Thread
         /// </summary>
-        protected bool IsUIThread => DispatcherQueue.GetForCurrentThread() != null;
+        protected bool IsUiThread => DispatcherQueue.GetForCurrentThread() != null;
 
         /// <summary>
         /// Navigates to page.
@@ -299,7 +299,7 @@ namespace TimePunch.MVVM.Controller
                 DispatcherQueue.GetForCurrentThread().TryEnqueue(() => ContentFrame.Navigate(navigateToPage));
             else
             {
-                if (IsUIThread)
+                if (IsUiThread)
                 {
                     ContentFrame.Navigate(navigateToPage);
                 }
@@ -319,7 +319,7 @@ namespace TimePunch.MVVM.Controller
                 DispatcherQueue.GetForCurrentThread().TryEnqueue(() => ContentFrame.Navigate(navigateToPage, message));
             else
             {
-                if (IsUIThread)
+                if (IsUiThread)
                 {
                     ContentFrame.Navigate(navigateToPage, message);
                 }
@@ -339,7 +339,7 @@ namespace TimePunch.MVVM.Controller
             get
             {
                 // Maybe we can't access it directly
-                if (CurrentPage != null && !IsUIThread)
+                if (CurrentPage != null && !IsUiThread)
                 {
                     bool result = false;
 
@@ -365,7 +365,7 @@ namespace TimePunch.MVVM.Controller
                 return;
 
             // Now Go Back
-            if (IsUIThread)
+            if (IsUiThread)
             {
                 // When going back, delete an potential error and clear the state
                 if (CurrentPage.DataContext is ViewModelBase baseModel && baseModel.IsDefective)
