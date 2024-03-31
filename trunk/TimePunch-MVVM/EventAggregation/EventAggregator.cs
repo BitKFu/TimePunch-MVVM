@@ -19,7 +19,7 @@ namespace TimePunch.MVVM.EventAggregation
         /// <summary>
         ///     Synchronization object for the subscribers
         /// </summary>
-        private readonly object subscribersLock = new object();
+        private readonly object subscribersLock = new();
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace TimePunch.MVVM.EventAggregation
         ///     Gets all current subscribers for all messages.
         /// </summary>
         /// <value>the registered subscribers</value>
-        private List<WeakReference> Subscribers { get; } = new List<WeakReference>();
+        private List<WeakReference> Subscribers { get; } = [];
 
         #endregion
 
@@ -85,7 +85,7 @@ namespace TimePunch.MVVM.EventAggregation
                         var subscribedObject = Subscribers[i];
 
                         // check, if it's the subscriber we're looking for
-                        if (subscribedObject.IsAlive && subscribedObject.Target.Equals(subscriber))
+                        if (subscribedObject.IsAlive && subscribedObject.Target?.Equals(subscriber) == true)
                         {
                             // remember index of subscriber
                             indexOf = i;

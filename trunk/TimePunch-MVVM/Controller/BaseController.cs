@@ -3,6 +3,7 @@
 // All other rights reserved.
 
 using System;
+using System.Threading;
 using TimePunch.MVVM.EventAggregation;
 
 #if NETFRAMEWORK
@@ -26,6 +27,7 @@ using TimePunch.MVVM.Events;
 using TimePunch.MVVM.ViewModels;
 using Windows.Foundation;
 using Windows.UI.Core;
+using Microsoft.UI.Xaml;
 #endif
 
 namespace TimePunch.MVVM.Controller
@@ -284,10 +286,14 @@ namespace TimePunch.MVVM.Controller
 #endif
 
 #if NET
+
+
         /// <summary>
         /// True, if the current thread is the UI Thread
         /// </summary>
         protected bool IsUiThread => DispatcherQueue.GetForCurrentThread() != null;
+
+        public static DispatcherQueue ApplicationDispatcher => Window.Current?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
         /// <summary>
         /// Navigates to page.
@@ -296,7 +302,7 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(Type navigateToPage)
         {
             if (CurrentPage == null)
-                DispatcherQueue.GetForCurrentThread().TryEnqueue(() => ContentFrame.Navigate(navigateToPage));
+                ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage));
             else
             {
                 if (IsUiThread)
@@ -316,7 +322,7 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(Type navigateToPage, object message)
         {
             if (CurrentPage == null)
-                DispatcherQueue.GetForCurrentThread().TryEnqueue(() => ContentFrame.Navigate(navigateToPage, message));
+                ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage, message));
             else
             {
                 if (IsUiThread)
@@ -343,9 +349,13 @@ namespace TimePunch.MVVM.Controller
                 {
                     bool result = false;
 
-                    var waitHandle = CurrentPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => result = CanGoBack);
-                    while (waitHandle.Status == AsyncStatus.Started)
-                        CoreWindow.GetForCurrentThread().Dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessAllIfPresent);
+                    var waitHandle = new ManualResetEvent(false);
+                    ApplicationDispatcher.TryEnqueue(() =>
+                    {
+                        result = CanGoBack;
+                        waitHandle.Set();
+                    });
+                    waitHandle.WaitOne();
 
                     return result;
                 }
@@ -361,7 +371,7 @@ namespace TimePunch.MVVM.Controller
         public virtual void Handle(GoBackNavigationRequest message)
         {
             // Check, if we can go back
-            if (!CanGoBack)
+            if (!CanGoBack || CurrentPage == null)
                 return;
 
             // Now Go Back

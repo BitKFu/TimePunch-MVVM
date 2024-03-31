@@ -7,10 +7,10 @@ using System.Reflection;
 using System.Linq;
 using System.Windows.Input;
 
-#if NETSTANDARD || NET
+#if NET
 using TimePunch.MVVM.Events;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.UI.Dispatching;
+using TimePunch.MVVM.Controller;
 #endif
 
 #if NETFRAMEWORK
@@ -43,10 +43,14 @@ namespace TimePunch.MVVM.Commands
             if (execute != null)
                 OwnsExecute = true;
 
+#if NET
+            Dispatcher = BaseController.ApplicationDispatcher;
+#endif
+
 #if NETFRAMEWORK
             // get hold of dispatcher (only necessary in .NET Framework)
             if (Application.Current != null)
-                CurrentDispatcher = Application.Current.Dispatcher;
+                Dispatcher = Application.Current.Dispatcher;
 #endif
         }
 
@@ -68,12 +72,12 @@ namespace TimePunch.MVVM.Commands
         /// <value><c>true</c> if [owns execute]; otherwise, <c>false</c>.</value>
         protected bool OwnsExecute { get; }
 
-#if NETSTANDARD || NET 
+#if NET
         /// <summary>
-        ///     Gets or sets the current dispatcher.
+        /// Gets or sets the current dispatcher.
         /// </summary>
         /// <value>The current dispatcher.</value>
-        protected virtual TaskScheduler CurrentDispatcher => TaskScheduler.FromCurrentSynchronizationContext();
+        protected DispatcherQueue Dispatcher { get; }
 #endif
 
 #if NETFRAMEWORK
@@ -81,7 +85,7 @@ namespace TimePunch.MVVM.Commands
         /// Gets or sets the current dispatcher.
         /// </summary>
         /// <value>The current dispatcher.</value>
-        protected Dispatcher CurrentDispatcher { get; }
+        protected Dispatcher Dispatcher { get; }
 #endif
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace TimePunch.MVVM.Commands
             if (ExecuteAction == null)
                 return;
 
-#if NETSTANDARD || NET
+#if NET
             var args = new ExecutedRoutedEventArgs(this, parameter);
 #endif
 
@@ -121,7 +125,7 @@ namespace TimePunch.MVVM.Commands
             if (CanExecuteAction == null)
                 return false;
 
-#if NETSTANDARD || NET
+#if NET
             var args = new CanExecuteRoutedEventArgs(this, parameter);
 #endif
 
@@ -135,10 +139,6 @@ namespace TimePunch.MVVM.Commands
 
         public event EventHandler CanExecuteChanged;
 
-#if NETSTANDARD || NET
-        private TaskScheduler? CurrentTaskScheduler => Task.Factory.Scheduler ?? TaskScheduler.Current;
-#endif
-
         /// <summary>
         ///     Raises the can execute changed.
         /// </summary>
@@ -147,22 +147,17 @@ namespace TimePunch.MVVM.Commands
             var handler = CanExecuteChanged;
             if (handler == null)
                 return;
-
-#if NETSTANDARD || NET
-            if (CurrentTaskScheduler == CurrentDispatcher)
+#if NET
+            if (DispatcherQueue.GetForCurrentThread() != null)
                 handler(this, EventArgs.Empty); // already on the UI thread
             else
-                Task.Factory.StartNew(
-                    ()=> handler(this, EventArgs.Empty), 
-                    CancellationToken.None, 
-                    TaskCreationOptions.None, 
-                    CurrentDispatcher); // place the action on the Dispatcher of the UI thread
+                Dispatcher.TryEnqueue(RaiseCanExecuteChanged);
 #endif
 
 #if NETFRAMEWORK
-            if (CurrentDispatcher != null && !CurrentDispatcher.CheckAccess())
+            if (Dispatcher != null && !Dispatcher.CheckAccess())
             {
-                CurrentDispatcher.BeginInvoke((Action)RaiseCanExecuteChanged);
+                Dispatcher.BeginInvoke((Action)RaiseCanExecuteChanged);
             }
             else
                 handler(this, EventArgs.Empty);      // already on the UI thread

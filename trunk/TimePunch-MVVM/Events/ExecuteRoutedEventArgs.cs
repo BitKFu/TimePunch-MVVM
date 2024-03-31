@@ -1,17 +1,12 @@
-﻿#if NETSTANDARD || NET
+﻿#if NET
 
 using System.Windows.Input;
-
-#if NET
 using Microsoft.UI.Xaml;
-#endif
 
 namespace TimePunch.MVVM.Events
 {
     public sealed class ExecutedRoutedEventArgs
-#if NET
         : RoutedEventArgs
-#endif
     {
         public ExecutedRoutedEventArgs(ICommand command, object parameter)
         {

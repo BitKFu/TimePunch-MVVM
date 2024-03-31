@@ -10,17 +10,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Windows.Input;
-using TimePunch.MVVM.Commands;
 using TimePunch.MVVM.EventAggregation;
-
-#if NETSTANDARD
-using System.Threading.Tasks;
-using TimePunch.MVVM.Events;
-#endif
 
 #if NET
 using Microsoft.UI.Dispatching;
 using System.Threading.Tasks;
+using TimePunch.MVVM.Commands;
 using TimePunch.MVVM.Events;
 using Windows.ApplicationModel;
 using Windows.System.Threading;
@@ -31,6 +26,7 @@ using ThreadPool = Windows.System.Threading.ThreadPool;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
+using TimePunch.MVVM.Commands;
 using TimePunch.MVVM.Controller;
 #endif
 
@@ -94,10 +90,6 @@ namespace TimePunch.MVVM.ViewModels
         {
             try
             {
-#if NETSTANDARD
-                IsDesignMode = DesignModeEnabled;
-#endif
-
 #if NETFRAMEWORK
                 IsDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject());
 #endif
@@ -117,7 +109,7 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         public abstract void Initialize();
 
-#if NETFRAMEWORK || NETSTANDARD
+#if NETFRAMEWORK
         /// <summary>
         ///     Initializes the page.
         ///     This method will be called every time the user navigates to the page
@@ -139,9 +131,9 @@ namespace TimePunch.MVVM.ViewModels
         }
 #endif
 
-        #endregion
+#endregion
 
-        #region Command Bindings
+#region Command Bindings
 
 #if NETFRAMEWORK
         /// <summary>
@@ -169,6 +161,8 @@ namespace TimePunch.MVVM.ViewModels
             RegisteredCommands.Add(command);
         }
 #endif
+
+#if NETFRAMEWORK || NET
 
         /// <summary>
         ///     Creates a command which is automatically disabled when the <see cref="IsLoading" /> indicator is set to true and
@@ -198,7 +192,9 @@ namespace TimePunch.MVVM.ViewModels
         /// <summary>
         ///     Executes a registered command.
         /// </summary>
-        private static void ExecuteRegisteredCommand(Action<object, ExecutedRoutedEventArgs> execute, object sender,
+        private static void ExecuteRegisteredCommand(
+            Action<object, ExecutedRoutedEventArgs> execute, 
+            object sender,
             ExecutedRoutedEventArgs parameter)
         {
             execute(sender, parameter);
@@ -216,7 +212,9 @@ namespace TimePunch.MVVM.ViewModels
             parameter.CanExecute = (!disableOnLoading || !IsLoading) && parameter.CanExecute;
         }
 
-        #endregion
+#endif
+
+#endregion
 
         #region PropertyChanged event
 
@@ -230,11 +228,6 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         private readonly IEventAggregator eventAggregator;
 
-        /// <summary>
-        ///     Gets the Property Changed Handler.
-        /// </summary>
-        /// <value>The property.</value>
-        protected PropertyChangedEventHandler NotifyHandler => PropertyChanged;
 
         #endregion
 
@@ -511,13 +504,9 @@ namespace TimePunch.MVVM.ViewModels
                 notifications.Add(notification);
         }
 
-        #endregion
+#endregion
 
         #region Threading
-
-#if NETSTANDARD
-        protected virtual TaskScheduler Dispatcher => TaskScheduler.FromCurrentSynchronizationContext();
-#endif
 
 #if NETFRAMEWORK
         protected virtual Dispatcher Dispatcher => Application.Current?.Dispatcher;
@@ -539,14 +528,6 @@ namespace TimePunch.MVVM.ViewModels
                 action();
             else
             {
-#if NETSTANDARD
-                // check, if we have access to the UI thread
-                if (Task.Factory.Scheduler == Dispatcher)
-                    action(); // execute directly
-                else
-                    Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.None, Dispatcher); // place the action on the Dispatcher of the UI thread
-#endif
-
 #if NET
                 // check, if we have access to the UI thread
                 if (IsUiThread)
@@ -588,8 +569,8 @@ namespace TimePunch.MVVM.ViewModels
         /// <param name="action">the action to execute</param>
         public virtual void DispatchDelayed(Action action)
         {
-#if NETSTANDARD
-            Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.None, Dispatcher); // place the action on the Dispatcher of the UI thread
+#if NET
+            Dispatcher.TryEnqueue(() => action()); // place the action on the Dispatcher of the UI thread
 #endif
 
 #if NETFRAMEWORK
@@ -601,10 +582,6 @@ namespace TimePunch.MVVM.ViewModels
                 action(); // execute directly
             else
                 Dispatcher.BeginInvoke(action); // place the action on the Dispatcher of the UI thread
-#endif
-
-#if NET
-            Dispatcher.TryEnqueue(() => action()); // place the action on the Dispatcher of the UI thread
 #endif
         }
 
@@ -634,20 +611,6 @@ namespace TimePunch.MVVM.ViewModels
         /// </param>
         public virtual void ExecuteAsync<T>(Action<T> action, T parameter, int delay = 0)
         {
-#if NETSTANDARD
-            // start new thread from the thread pool and pass it the action and the parameter
-            Task.Factory.StartNew(
-                async =>
-                {
-                    // check, if the action execution should be delayed
-                    if (delay > 0)
-                        Task.Delay(delay).Wait();
-
-                    // execute the action
-                    action(parameter);
-                }, CancellationToken.None);
-#endif
-
 #if NET
             // start new thread from the thread pool and pass it the action and the parameter
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -662,7 +625,6 @@ namespace TimePunch.MVVM.ViewModels
                     action(parameter);
                 }, WorkItemPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
 
 #endif
 
@@ -717,13 +679,7 @@ namespace TimePunch.MVVM.ViewModels
 #endif
 
             // UnSubscribe from the event aggregator
-#if NETSTANDARD || NET
-            ExecuteAsync(() => EventAggregator.Unsubscribe(this));
-#endif
-
-#if NETFRAMEWORK
             DispatchDelayed(() => EventAggregator.Unsubscribe(this));
-#endif
             IsDisposed = true;
         }
 
@@ -741,16 +697,10 @@ namespace TimePunch.MVVM.ViewModels
             set { SetPropertyValue(() => FaultedCommand, value); }
         }
 
-#if NETSTANDARD
-        /// <summary>
-        /// Can be set to true, to indicate that the design mode is active
-        /// </summary>
-        public static bool DesignModeEnabled { get; set; }
-#endif
-
-#endregion
+        #endregion
 
 #if NETFRAMEWORK
+
         #region Property DialogResult
 
         /// <summary>

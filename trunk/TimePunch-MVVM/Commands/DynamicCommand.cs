@@ -29,7 +29,7 @@ namespace TimePunch.MVVM.Commands
         /// <summary>
         ///     Initializes a new instance of the Dynamic Command with an execute Action and a proper CanExecuteAction Func
         /// </summary>
-        /// <param name="canExecuteAction">Func for determinating if the action can be executed</param>
+        /// <param name="canExecuteAction">Func for determination if the action can be executed</param>
         /// <param name="executeAction">Action that will be executed</param>
         public DynamicCommand(Func<bool> canExecuteAction, Action<object> executeAction)
         {
