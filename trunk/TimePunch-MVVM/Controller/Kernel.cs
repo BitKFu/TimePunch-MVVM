@@ -11,7 +11,7 @@ namespace TimePunch.MVVM.Controller
         /// <summary>
         /// Gets or sets the Kernel Instance
         /// </summary>
-        public static IKernel Instance { get; set; }
+        public static IKernel? Instance { get; set; }
 
         /// <summary>
         /// Gets the event aggregator.

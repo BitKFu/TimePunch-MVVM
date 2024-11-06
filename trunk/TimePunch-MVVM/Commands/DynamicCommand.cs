@@ -5,22 +5,25 @@
 using System;
 using System.Windows.Input;
 
+#pragma warning disable CS0067
+
+
 namespace TimePunch.MVVM.Commands
 {
     /// <summary>
-    ///     A Dynamic Command is an lightweight alternative to the RelayCommand.
+    ///     A Dynamic Command is a lightweight alternative to the RelayCommand.
     ///     It's only used for viewmodel in-code commands
     /// </summary>
     public class DynamicCommand : ICommand
     {
         private readonly Func<bool> canExecuteAction;
-        private readonly Action<object> executeAction;
+        private readonly Action<object?> executeAction;
 
         /// <summary>
         ///     Initializes a new instance of the Dynamic Command with one execute Action
         /// </summary>
         /// <param name="executeAction">Action that will be executed</param>
-        public DynamicCommand(Action<object> executeAction)
+        public DynamicCommand(Action<object?> executeAction)
         {
             this.executeAction = executeAction;
             canExecuteAction = () => true;
@@ -31,7 +34,7 @@ namespace TimePunch.MVVM.Commands
         /// </summary>
         /// <param name="canExecuteAction">Func for determination if the action can be executed</param>
         /// <param name="executeAction">Action that will be executed</param>
-        public DynamicCommand(Func<bool> canExecuteAction, Action<object> executeAction)
+        public DynamicCommand(Func<bool> canExecuteAction, Action<object?> executeAction)
         {
             this.executeAction = executeAction;
             this.canExecuteAction = canExecuteAction;
@@ -46,7 +49,7 @@ namespace TimePunch.MVVM.Commands
         ///     Data used by the command.  If the command does not require data to be passed, this object can
         ///     be set to null.
         /// </param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             executeAction(parameter);
         }
@@ -61,7 +64,7 @@ namespace TimePunch.MVVM.Commands
         ///     Data used by the command.  If the command does not require data to be passed, this object can
         ///     be set to null.
         /// </param>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return canExecuteAction();
         }
@@ -70,7 +73,7 @@ namespace TimePunch.MVVM.Commands
         ///     Defines the public event handler that will be fired, if the CanExecute Method changes, which is never the case with
         ///     a Dynamic Command
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         #endregion
     }

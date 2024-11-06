@@ -34,8 +34,8 @@ namespace TimePunch.MVVM.Commands
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action<object, ExecutedRoutedEventArgs> execute,
-            Action<object, CanExecuteRoutedEventArgs> canExecute)
+        public RelayCommand(Action<object, ExecutedRoutedEventArgs>? execute,
+            Action<object, CanExecuteRoutedEventArgs>? canExecute)
         {
             ExecuteAction = execute;
             CanExecuteAction = canExecute;
@@ -51,6 +51,8 @@ namespace TimePunch.MVVM.Commands
             // get hold of dispatcher (only necessary in .NET Framework)
             if (Application.Current != null)
                 Dispatcher = Application.Current.Dispatcher;
+            else
+                throw new ArgumentNullException(nameof(Dispatcher));
 #endif
         }
 
@@ -58,13 +60,13 @@ namespace TimePunch.MVVM.Commands
         ///     Gets or sets the execute action.
         /// </summary>
         /// <value>The execute action.</value>
-        protected Action<object, ExecutedRoutedEventArgs> ExecuteAction { get; }
+        protected Action<object, ExecutedRoutedEventArgs>? ExecuteAction { get; }
 
         /// <summary>
         ///     Gets or sets the can execute predicate.
         /// </summary>
         /// <value>The can execute predicate.</value>
-        protected Action<object, CanExecuteRoutedEventArgs> CanExecuteAction { get; }
+        protected Action<object, CanExecuteRoutedEventArgs>? CanExecuteAction { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [owns execute].
@@ -95,7 +97,7 @@ namespace TimePunch.MVVM.Commands
         ///     Data used by the command.  If the command does not require data to be passed, this object can
         ///     be set to null.
         /// </param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             if (ExecuteAction == null)
                 return;
@@ -105,9 +107,9 @@ namespace TimePunch.MVVM.Commands
 #endif
 
 #if NETFRAMEWORK
-            var args = (ExecutedRoutedEventArgs)ExecutedRoutedEventArgsConstructor.Invoke(new object[] { this, null });
+            var args = (ExecutedRoutedEventArgs)ExecutedRoutedEventArgsConstructor.Invoke([this, parameter]);
 #endif
-            ExecuteAction(parameter, args);
+            ExecuteAction(parameter ?? new object(), args);
         }
 
         /// <summary>
@@ -120,7 +122,7 @@ namespace TimePunch.MVVM.Commands
         ///     Data used by the command.  If the command does not require data to be passed, this object can
         ///     be set to null.
         /// </param>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             if (CanExecuteAction == null)
                 return false;
@@ -130,14 +132,14 @@ namespace TimePunch.MVVM.Commands
 #endif
 
 #if NETFRAMEWORK
-            var args = (CanExecuteRoutedEventArgs)CanExecuteRoutedEventArgsConstructor.Invoke(new[] { this, null });
+            var args = (CanExecuteRoutedEventArgs)CanExecuteRoutedEventArgsConstructor.Invoke([this, parameter]);
 #endif
 
-            CanExecuteAction(parameter, args);
+            CanExecuteAction(parameter ?? new object(), args);
             return args.CanExecute;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         /// <summary>
         ///     Raises the can execute changed.

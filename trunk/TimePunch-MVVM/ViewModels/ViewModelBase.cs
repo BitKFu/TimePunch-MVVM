@@ -9,12 +9,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TimePunch.MVVM.EventAggregation;
 
 #if NET
 using Microsoft.UI.Dispatching;
-using System.Threading.Tasks;
 using TimePunch.MVVM.Commands;
 using TimePunch.MVVM.Events;
 using Windows.ApplicationModel;
@@ -52,10 +52,15 @@ namespace TimePunch.MVVM.ViewModels
         ///     Initializes a new instance of the <see cref="ViewModelBase" /> class.
         /// </summary>
         /// <param name="eventAggregator">Used Event aggregator, or null if the default Kernel Event Aggregator shall be used</param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected ViewModelBase(IEventAggregator eventAggregator)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
+            if (eventAggregator == null) 
+                throw new ArgumentNullException(nameof(eventAggregator));
+            
             // initialize the maps
-            PropertyValues = new ConcurrentDictionary<string, object>();
+            PropertyValues = new ConcurrentDictionary<string, object?>();
             DependentNotifications = new Dictionary<string, IList<string>>();
             DependentCommandNotifications = new Dictionary<string, IList<ICommand>>();
 
@@ -116,6 +121,16 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         /// <param name="extraData">The extra Data, if there's any. Otherwise NULL</param>
         public abstract void InitializePage(object extraData);
+
+        /// <summary>
+        /// Async call for the page initialization
+        /// </summary>
+        public virtual Task<bool> InitializePageAsync(object extraData)
+        {
+            InitializePage(extraData);
+            return Task.FromResult(true);
+        }
+
 #endif
 
 #if NET
@@ -129,11 +144,21 @@ namespace TimePunch.MVVM.ViewModels
         {
             Dispatcher = dispatcher;
         }
+
+        /// <summary>
+        /// Async call for the page initialization
+        /// </summary>
+        public virtual Task<bool> InitializePageAsync(object extraData, DispatcherQueue dispatcher)
+        {
+            InitializePage(extraData, dispatcher);
+            return Task.FromResult(true);
+        }
+
 #endif
 
-#endregion
+        #endregion
 
-#region Command Bindings
+        #region Command Bindings
 
 #if NETFRAMEWORK
         /// <summary>
@@ -148,8 +173,8 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         public virtual void RegisterApplicationCommand(
             ICommand commandToRegister,
-            Action<object, ExecutedRoutedEventArgs> execute,
-            Action<object, CanExecuteRoutedEventArgs> canExecute,
+            Action<object?, ExecutedRoutedEventArgs>? execute,
+            Action<object?, CanExecuteRoutedEventArgs>? canExecute,
             bool disableOnLoading)
         {
             var command = new CommandBinding(commandToRegister,
@@ -175,8 +200,8 @@ namespace TimePunch.MVVM.ViewModels
         ///     <see cref="IsLoading" /> indicator is set to true
         /// </param>
         public virtual ICommand RegisterCommand(
-            Action<object, ExecutedRoutedEventArgs> execute,
-            Action<object, CanExecuteRoutedEventArgs> canExecute,
+            Action<object, ExecutedRoutedEventArgs>? execute,
+            Action<object, CanExecuteRoutedEventArgs>? canExecute,
             bool disableOnLoading)
         {
             var commandToRegister = new RelayCommand(
@@ -193,11 +218,11 @@ namespace TimePunch.MVVM.ViewModels
         ///     Executes a registered command.
         /// </summary>
         private static void ExecuteRegisteredCommand(
-            Action<object, ExecutedRoutedEventArgs> execute, 
+            Action<object, ExecutedRoutedEventArgs>? execute, 
             object sender,
             ExecutedRoutedEventArgs parameter)
         {
-            execute(sender, parameter);
+            execute?.Invoke(sender, parameter);
         }
 
         /// <summary>
@@ -205,29 +230,28 @@ namespace TimePunch.MVVM.ViewModels
         ///     <see cref="IsLoading" /> indicator is not set to true
         ///     and the user has the required permissions and the command's predicate is fulfilled
         /// </summary>
-        private void CanExecuteRegisteredCommand(Action<object, CanExecuteRoutedEventArgs> canExecute, object sender,
+        private void CanExecuteRegisteredCommand(Action<object, CanExecuteRoutedEventArgs>? canExecute, object sender,
             CanExecuteRoutedEventArgs parameter, bool disableOnLoading)
         {
-            canExecute(sender, parameter);
+            canExecute?.Invoke(sender, parameter);
             parameter.CanExecute = (!disableOnLoading || !IsLoading) && parameter.CanExecute;
         }
 
 #endif
 
-#endregion
+        #endregion
 
         #region PropertyChanged event
 
         /// <summary>
         ///     Raised when a property on this object gets a new value.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         ///     Used Event Aggregator
         /// </summary>
         private readonly IEventAggregator eventAggregator;
-
 
         #endregion
 
@@ -241,7 +265,7 @@ namespace TimePunch.MVVM.ViewModels
         /// <summary>
         ///     Gets the dictionary of the property values, which maps the name of a property to its current value.
         /// </summary>
-        protected ConcurrentDictionary<string, object> PropertyValues { get; }
+        protected ConcurrentDictionary<string, object?> PropertyValues { get; }
 
         /// <summary>
         ///     Gets the dictionary, which maps the name of a base property to a list of dependent property names
@@ -256,7 +280,7 @@ namespace TimePunch.MVVM.ViewModels
         /// <summary>
         ///     Gets or sets the error message indicating what is wrong with this object.
         /// </summary>
-        public string Error
+        public string? Error
         {
             get { return GetPropertyValue(() => Error); }
             set { SetPropertyValue(() => Error, value); }
@@ -316,17 +340,17 @@ namespace TimePunch.MVVM.ViewModels
 
         /// <summary>Gets the current value of a property.</summary>
         /// <typeparam name="T">the type of the property</typeparam>
-        protected T GetPropertyValue<T>(Expression<Func<T>> propertyAccessor)
+        protected T? GetPropertyValue<T>(Expression<Func<T>> propertyAccessor)
         {
             return GetPropertyValue<T>(GetPropertyName(propertyAccessor));
         }
 
         /// <summary>Gets the current value of a property.</summary>
         /// <typeparam name="T">the type of the property</typeparam>
-        protected T GetPropertyValue<T>(string propertyName)
+        protected T? GetPropertyValue<T>(string propertyName)
         {
             if (PropertyValues.TryGetValue(propertyName, out var result))
-                return (T) result;
+                return (T?) result;
 
             return default;
         }
@@ -337,7 +361,7 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         /// <typeparam name="T">the type of the property</typeparam>
         /// <returns>True if the property value has been updated, otherwise false</returns>
-        protected bool SetPropertyValue<T>(Expression<Func<T>> propertyAccessor, T value)
+        protected bool SetPropertyValue<T>(Expression<Func<T>> propertyAccessor, T? value)
         {
             var valueChanged = false;
 
@@ -377,7 +401,7 @@ namespace TimePunch.MVVM.ViewModels
         {
             try
             {
-                RaisePropertyChanged(propertyName, true, new Dictionary<string, object>(), new Dictionary<ICommand, object>());
+                RaisePropertyChanged(propertyName, true, new Dictionary<string, object?>(), new Dictionary<ICommand, object?>());
             }
             catch (NullReferenceException)
             {
@@ -395,7 +419,7 @@ namespace TimePunch.MVVM.ViewModels
             try
             {
                 var propertyName = GetPropertyName(propertyAccessor);
-                RaisePropertyChanged(propertyName, notifyDependentProperties, new Dictionary<string, object>(), new Dictionary<ICommand, object>());
+                RaisePropertyChanged(propertyName, notifyDependentProperties, new Dictionary<string, object?>(), new Dictionary<ICommand, object?>());
             }
             catch (NullReferenceException)
             {
@@ -407,8 +431,8 @@ namespace TimePunch.MVVM.ViewModels
         ///     Raises this object's PropertyChanged event.
         /// </summary>
         private void RaisePropertyChanged(string propertyName, bool notifyDependentProperties,
-            IDictionary<string, object> processedProperties,
-            IDictionary<ICommand, object> processedCommands)
+            IDictionary<string, object?> processedProperties,
+            IDictionary<ICommand, object?> processedCommands)
         {
             if (processedProperties.ContainsKey(propertyName))
                 return;
@@ -509,11 +533,11 @@ namespace TimePunch.MVVM.ViewModels
         #region Threading
 
 #if NETFRAMEWORK
-        protected virtual Dispatcher Dispatcher => Application.Current?.Dispatcher;
+        protected virtual Dispatcher? Dispatcher => Application.Current?.Dispatcher;
 #endif
 
 #if NET
-        protected virtual DispatcherQueue Dispatcher { get; private set; }
+        protected virtual DispatcherQueue? Dispatcher { get; private set; }
 
         protected bool IsUiThread => Dispatcher?.HasThreadAccess ?? false;
 #endif
@@ -567,10 +591,13 @@ namespace TimePunch.MVVM.ViewModels
         /// Performs an delayed action on the UI thread
         /// </summary>
         /// <param name="action">the action to execute</param>
+#if NET
+        [Obsolete("DispatchDelayed is obsolete when using WinUI because every action is executed async on UI Thread")]
+#endif
         public virtual void DispatchDelayed(Action action)
         {
 #if NET
-            Dispatcher.TryEnqueue(() => action()); // place the action on the Dispatcher of the UI thread
+            Dispatch(action);
 #endif
 
 #if NETFRAMEWORK
@@ -609,7 +636,7 @@ namespace TimePunch.MVVM.ViewModels
         ///     a delay in milliseconds to wait before the action is executed (pass a value
         ///     greater or equal to zero to execute the action without any delay)
         /// </param>
-        public virtual void ExecuteAsync<T>(Action<T> action, T parameter, int delay = 0)
+        public virtual void ExecuteAsync<T>(Action<T?> action, T? parameter, int delay = 0)
         {
 #if NET
             // start new thread from the thread pool and pass it the action and the parameter
@@ -642,7 +669,7 @@ namespace TimePunch.MVVM.ViewModels
                     // execute the action
                     ((Action<T>)threadParameters[0])((T)threadParameters[1]);
                 },
-                new Object[] { action, parameter });
+                new Object?[] { action, parameter });
 #endif
         }
 
@@ -678,8 +705,14 @@ namespace TimePunch.MVVM.ViewModels
                 throw new ObjectDisposedException("ViewModel has already been disposed");
 #endif
 
+#if NETFRAMEWORK
             // UnSubscribe from the event aggregator
             DispatchDelayed(() => EventAggregator.Unsubscribe(this));
+#endif
+
+#if NET
+            Dispatch(() => EventAggregator.Unsubscribe(this));
+#endif
             IsDisposed = true;
         }
 
@@ -691,13 +724,13 @@ namespace TimePunch.MVVM.ViewModels
         /// <summary>
         ///     Gets or sets the faulted command that can be re-run
         /// </summary>
-        public ICommand FaultedCommand
+        public ICommand? FaultedCommand
         {
             get { return GetPropertyValue(() => FaultedCommand); }
             set { SetPropertyValue(() => FaultedCommand, value); }
         }
 
-        #endregion
+#endregion
 
 #if NETFRAMEWORK
 

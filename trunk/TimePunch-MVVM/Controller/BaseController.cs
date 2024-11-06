@@ -9,7 +9,6 @@ using TimePunch.MVVM.EventAggregation;
 #if NETFRAMEWORK
 using System.Reflection;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -37,7 +36,7 @@ namespace TimePunch.MVVM.Controller
     /// </summary>
     public abstract class BaseController : IBaseController
 #if NETFRAMEWORK || NET
-        ,IHandleMessage<GoBackNavigationRequest>
+        , IHandleMessage<GoBackNavigationRequest>
 #endif
     {
 
@@ -54,7 +53,7 @@ namespace TimePunch.MVVM.Controller
         {
             EventAggregator = eventAggregator;
             EventAggregator.Subscribe(this);
-        }       
+        }
 
         /// <summary>
         ///     Releases unmanaged resources and performs other cleanup operations before the
@@ -90,13 +89,14 @@ namespace TimePunch.MVVM.Controller
         /// <summary>
         /// Gets or sets the content frame
         /// </summary>
-        protected virtual Frame ContentFrame { get; private set; }
+        protected virtual Frame? ContentFrame { get; private set; }
 
         /// <summary>
         /// Gets or sets the current page.
         /// </summary>
         /// <value>The current page.</value>
-        public Page CurrentPage { get; private set; }
+        public Page? CurrentPage { get; private set; }
+
 #endif
 
         #endregion Properties
@@ -140,7 +140,7 @@ namespace TimePunch.MVVM.Controller
                 // Send Navigated Request
                 Type requestType = typeof(NavigationCompletedEvent<>).MakeGenericType(context.GetType());
 
-                MethodInfo publishMessage = EventAggregator.GetType().GetMethod("PublishMessage");
+                MethodInfo? publishMessage = EventAggregator.GetType().GetMethod("PublishMessage");
                 if (publishMessage != null)
                 {
                     publishMessage = publishMessage.GetGenericMethodDefinition().MakeGenericMethod(requestType);
@@ -177,6 +177,7 @@ namespace TimePunch.MVVM.Controller
 #endif
 
 #if NETFRAMEWORK
+
         /// <summary>
         /// Navigates to page.
         /// </summary>
@@ -184,8 +185,13 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(string navigateToPage)
         {
             if (CurrentPage == null)
-                Application.Current.Dispatcher.BeginInvoke((ThreadStart)(() =>
-                    ContentFrame.Navigate(new Uri(navigateToPage, UriKind.Relative))));
+            {
+                if (ContentFrame != null)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)(() =>
+                        ContentFrame.Navigate(new Uri(navigateToPage, UriKind.Relative))));
+                }
+            }
             else
             {
                 if (CurrentPage.Dispatcher.CheckAccess())
@@ -208,8 +214,13 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(string navigateToPage, object message)
         {
             if (CurrentPage == null)
-                Application.Current.Dispatcher.BeginInvoke((ThreadStart)(() =>
-                    ContentFrame.Navigate(new Uri(navigateToPage, UriKind.Relative), message)));
+            {
+                if (ContentFrame != null)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)(() =>
+                        ContentFrame.Navigate(new Uri(navigateToPage, UriKind.Relative), message)));
+                }
+            }
             else
             {
                 if (CurrentPage.Dispatcher.CheckAccess())
@@ -256,7 +267,7 @@ namespace TimePunch.MVVM.Controller
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Handles the Navigation Request
         /// </summary>
         /// <param name="message">The Navigation goback request</param>
@@ -264,6 +275,9 @@ namespace TimePunch.MVVM.Controller
         {
             // Check, if we can go back
             if (!CanGoBack)
+                return;
+
+            if (CurrentPage == null) 
                 return;
 
             // Now Go Back
@@ -302,12 +316,17 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(Type navigateToPage)
         {
             if (CurrentPage == null)
-                ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage));
+            {
+                if (ContentFrame != null)
+                {
+                    ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage));
+                }
+            }
             else
             {
                 if (IsUiThread)
                 {
-                    ContentFrame.Navigate(navigateToPage);
+                    ContentFrame?.Navigate(navigateToPage);
                 }
                 else
                     CurrentPage.DispatcherQueue.TryEnqueue(() => NavigateToPage(navigateToPage));
@@ -322,12 +341,17 @@ namespace TimePunch.MVVM.Controller
         public virtual void NavigateToPage(Type navigateToPage, object message)
         {
             if (CurrentPage == null)
-                ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage, message));
+            {
+                if (ContentFrame != null)
+                {
+                    ApplicationDispatcher.TryEnqueue(() => ContentFrame.Navigate(navigateToPage, message));
+                }
+            }
             else
             {
                 if (IsUiThread)
                 {
-                    ContentFrame.Navigate(navigateToPage, message);
+                    ContentFrame?.Navigate(navigateToPage, message);
                 }
                 else
                     CurrentPage.DispatcherQueue.TryEnqueue(() => NavigateToPage(navigateToPage, message));
@@ -381,7 +405,7 @@ namespace TimePunch.MVVM.Controller
                 if (CurrentPage.DataContext is ViewModelBase baseModel && baseModel.IsDefective)
                     baseModel.Error = string.Empty;
 
-                if (ContentFrame.CanGoBack)
+                if (ContentFrame != null && ContentFrame.CanGoBack)
                     ContentFrame.GoBack();
             }
             else

@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>net480; net472; net462; net6.0-windows10.0.19041.0; net8.0-windows10.0.22621.0</TargetFrameworks>
     <RootNamespace>TimePunch.MVVM</RootNamespace>
-    <Version>0.7.0</Version>
+    <Version>0.8.0</Version>
     <UseWinUI>true</UseWinUI>
     <Authors>BitKFu</Authors>
     <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
     <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TpMVVM.snk</AssemblyOriginatorKeyFile>
     <Company>TimePunch KG</Company>
@@ -16,9 +16,20 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageTags>mvvm;winui;wpf</PackageTags>
+    <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);NETSDK1206</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\output\Release\lib\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutputPath>..\..\output\Release\lib\</OutputPath>
   </PropertyGroup>
 
@@ -26,7 +37,15 @@
     <OutputPath>..\..\output\Debug\lib\</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputPath>..\..\output\Debug\lib\</OutputPath>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|x64'">
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
@@ -51,6 +70,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|x64'">
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
@@ -93,11 +116,13 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.5" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.22621.0'">
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.5" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
   </ItemGroup>

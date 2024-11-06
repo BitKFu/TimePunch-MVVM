@@ -8,7 +8,7 @@ namespace TimePunch.MVVM.Events
     public sealed class ExecutedRoutedEventArgs
         : RoutedEventArgs
     {
-        public ExecutedRoutedEventArgs(ICommand command, object parameter)
+        public ExecutedRoutedEventArgs(ICommand command, object? parameter)
         {
             Command = command;
             Parameter = parameter;
@@ -16,7 +16,7 @@ namespace TimePunch.MVVM.Events
 
         public ICommand Command { get; }
 
-        public object Parameter { get; }
+        public object? Parameter { get; }
     }
 }
 
