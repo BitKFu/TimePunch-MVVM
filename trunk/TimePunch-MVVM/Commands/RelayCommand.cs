@@ -51,8 +51,6 @@ namespace TimePunch.MVVM.Commands
             // get hold of dispatcher (only necessary in .NET Framework)
             if (Application.Current != null)
                 Dispatcher = Application.Current.Dispatcher;
-            else
-                throw new ArgumentNullException(nameof(Dispatcher));
 #endif
         }
 
@@ -87,7 +85,7 @@ namespace TimePunch.MVVM.Commands
         /// Gets or sets the current dispatcher.
         /// </summary>
         /// <value>The current dispatcher.</value>
-        protected Dispatcher Dispatcher { get; }
+        protected Dispatcher? Dispatcher { get; }
 #endif
 
         /// <summary>
@@ -157,7 +155,7 @@ namespace TimePunch.MVVM.Commands
 #endif
 
 #if NETFRAMEWORK
-            if (Dispatcher != null && !Dispatcher.CheckAccess())
+            if (Dispatcher != null && Dispatcher.CheckAccess())
             {
                 Dispatcher.BeginInvoke((Action)RaiseCanExecuteChanged);
             }
