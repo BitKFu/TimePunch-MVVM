@@ -155,7 +155,7 @@ namespace TimePunch.MVVM.Commands
 #endif
 
 #if NETFRAMEWORK
-            if (Dispatcher != null && Dispatcher.CheckAccess())
+            if (Dispatcher != null && !Dispatcher.CheckAccess())
             {
                 Dispatcher.BeginInvoke((Action)RaiseCanExecuteChanged);
             }

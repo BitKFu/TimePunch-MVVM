@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net480; net472; net462; net6.0-windows10.0.19041.0; net8.0-windows10.0.22621.0</TargetFrameworks>
     <RootNamespace>TimePunch.MVVM</RootNamespace>
-    <Version>0.8.1</Version>
+    <Version>0.8.2</Version>
     <UseWinUI>true</UseWinUI>
     <Authors>BitKFu</Authors>
     <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
