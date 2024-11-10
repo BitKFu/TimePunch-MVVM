@@ -638,7 +638,18 @@ namespace TimePunch.MVVM.ViewModels
         /// </param>
         public virtual void ExecuteAsync<T>(Action<T?> action, T? parameter, int delay = 0)
         {
-#if NET
+#if HAS_UNO
+            Task.Run(() =>
+            {
+                // check, if the action execution should be delayed
+                if (delay > 0)
+                    Task.Delay(delay).Wait();
+
+                // execute the action
+                action(parameter);
+                return Task.CompletedTask;
+            }).Start();
+#elif NET
             // start new thread from the thread pool and pass it the action and the parameter
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             ThreadPool.RunAsync(
@@ -673,7 +684,7 @@ namespace TimePunch.MVVM.ViewModels
 #endif
         }
 
-#endregion
+        #endregion
 
         #region Disposing
 
