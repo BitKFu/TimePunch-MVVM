@@ -307,7 +307,7 @@ namespace TimePunch.MVVM.Controller
         /// </summary>
         protected bool IsUiThread => DispatcherQueue.GetForCurrentThread() != null;
 
-        public static DispatcherQueue ApplicationDispatcher => Window.Current?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+        public static DispatcherQueue ApplicationDispatcher => DispatcherQueue.GetForCurrentThread();
 
         /// <summary>
         /// Navigates to page.

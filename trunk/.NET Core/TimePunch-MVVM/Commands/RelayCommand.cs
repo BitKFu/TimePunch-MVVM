@@ -22,12 +22,16 @@ namespace TimePunch.MVVM.Commands
 {
     public class RelayCommand : ICommand
     {
+
+#if NETFRAMEWORK
+        
         private static readonly ConstructorInfo ExecutedRoutedEventArgsConstructor =
             typeof(ExecutedRoutedEventArgs).GetConstructors(
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).First();
 
         private static readonly ConstructorInfo CanExecuteRoutedEventArgsConstructor =
             typeof(CanExecuteRoutedEventArgs).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).First();
+#endif
 
         /// <summary>
         ///     Initializes a new instance of the RelayCommand class.
@@ -147,6 +151,7 @@ namespace TimePunch.MVVM.Commands
             var handler = CanExecuteChanged;
             if (handler == null)
                 return;
+
 #if NET
             if (DispatcherQueue.GetForCurrentThread() != null)
                 handler(this, EventArgs.Empty); // already on the UI thread
