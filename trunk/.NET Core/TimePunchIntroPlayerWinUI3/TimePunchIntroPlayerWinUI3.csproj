@@ -11,6 +11,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <WindowsPackageType>None</WindowsPackageType>
     <UseAppHost>true</UseAppHost>
+    <StartupObject>TimePunchIntroPlayerWinUI3.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="MainWindow.xaml" />

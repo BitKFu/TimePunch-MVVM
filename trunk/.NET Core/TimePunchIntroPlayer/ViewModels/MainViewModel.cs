@@ -16,7 +16,7 @@ namespace TimePunchIntroPlayer
         , IHandleMessage<MediaFailedEvent>
         , IHandleMessage<VideoPositionChangedEvent>
     {
-        public MainViewModel() : base(IntroPlayerKernel.Get().EventAggregator)
+        public MainViewModel() : base(IntroPlayerKernel.Instance.EventAggregator)
         {
         }
 
@@ -97,7 +97,7 @@ namespace TimePunchIntroPlayer
             {
                 Dispatcher.Invoke(() =>
                 {
-                    IntroPlayerKernel.Get().EventAggregator.PublishMessage(new SeekToPlayerPositionEvent(VideoPosition));
+                    IntroPlayerKernel.Instance.EventAggregator.PublishMessage(new SeekToPlayerPositionEvent(VideoPosition));
                 });
             }
         }

@@ -2,7 +2,7 @@
 
 namespace TimePunchIntroPlayerWinUI3.Core
 {
-    public class ViewModelLocater
+    public class ViewModelLocator
     {
         #region Fields
 

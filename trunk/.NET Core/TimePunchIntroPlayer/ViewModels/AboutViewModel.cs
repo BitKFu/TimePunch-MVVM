@@ -6,7 +6,7 @@ namespace TimePunchIntroPlayer
 {
     public class AboutViewModel : ViewModelBase
     {
-        public AboutViewModel() : base(IntroPlayerKernel.Get().EventAggregator)
+        public AboutViewModel() : base(IntroPlayerKernel.Instance.EventAggregator)
         {
         }
 

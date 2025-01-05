@@ -1,6 +1,6 @@
 ﻿namespace TimePunchIntroPlayer
 {
-    public class ViewModelLocater
+    public class ViewModelLocator
     {
         private static MainViewModel mainViewModel;
         private static AboutViewModel aboutWindowModel;

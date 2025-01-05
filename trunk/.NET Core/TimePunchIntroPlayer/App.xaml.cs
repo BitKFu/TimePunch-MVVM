@@ -8,13 +8,5 @@ namespace TimePunchIntroPlayer
     /// </summary>
     public partial class App : Application
     {
-        public IntroPlayerController IntroPlayerController { get; set; }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            IntroPlayerController = new IntroPlayerController();
-        }
     }
 }

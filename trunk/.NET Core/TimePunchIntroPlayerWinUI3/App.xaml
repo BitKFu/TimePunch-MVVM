@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Other app resources here -->
-            <core:ViewModelLocater x:Key="ViewModelLocater" />
+            <core:ViewModelLocator x:Key="ViewModelLocater" />
             <converters:DoubleToIntConverter x:Key="DoubleToIntConverter" />
             <converters:DoubleToTimespanConverter x:Key="DoubleToTimespanConverter" />
         </ResourceDictionary>

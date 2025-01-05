@@ -32,7 +32,7 @@ namespace TimePunchIntroPlayerWinUI3
             m_window = new MainWindow();
             m_window.Activate();
 
-            WinUI3Controller = new TimePunchIntroPlayerWinUI3Controller();
+            WinUI3Controller = TimePunchIntroPlayerWinUi3Kernel.Instance.Controller;
             WinUI3Controller.Init();
             WinUI3Controller.SetContentFrame(m_window.GetFrame());
             WinUI3Controller.NavigateToPage(typeof(MainPage));

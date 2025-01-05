@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -94,7 +96,7 @@
     <Compile Include="Events\Main\OpenVideoEvent.cs" />
     <Compile Include="Events\Main\PlayVideoEvent.cs" />
     <Compile Include="Events\Main\SaveFileDialogEvent.cs" />
-    <Compile Include="Core\ViewModelLocater.cs" />
+    <Compile Include="Core\ViewModelLocator.cs" />
     <Page Include="Windows\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,7 +109,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\IntroPlayerKernel.cs" />
     <Compile Include="Core\IntroPlayerController.cs" />
     <Compile Include="Events\Main\SeekToPlayerPositionEvent.cs" />
     <Compile Include="Events\Main\VideoPositionChangedEvent.cs" />

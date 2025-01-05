@@ -8,6 +8,6 @@
     <Application.Resources>
         <converter:DoubleToIntConverter x:Key="DoubleToIntConverter" />
         <converter:DoubleToTimespanConverter x:Key="DoubleToTimespanConverter" />
-        <local:ViewModelLocater x:Key="ViewModelLocater" />
+        <local:ViewModelLocator x:Key="ViewModelLocater" />
     </Application.Resources>
 </Application>

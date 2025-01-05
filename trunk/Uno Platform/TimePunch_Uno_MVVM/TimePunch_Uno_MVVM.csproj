@@ -10,7 +10,7 @@
     <RootNamespace>TimePunch.MVVM</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>TimePunch-Uno-MVVM</PackageId>
-    <Version>0.8.3</Version>
+    <Version>0.9.0</Version>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.

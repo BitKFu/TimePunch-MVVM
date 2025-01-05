@@ -10,17 +10,14 @@ using TimePunchIntroPlayerWinUI3.Pages;
 
 namespace TimePunchIntroPlayerWinUI3.Core
 {
-    public class TimePunchIntroPlayerWinUI3Controller : BaseController
+    public class TimePunchIntroPlayerWinUi3Kernel : Kernel<TimePunchIntroPlayerWinUi3Kernel, TimePunchIntroPlayerWinUI3Controller>;
+
+    public class TimePunchIntroPlayerWinUI3Controller() : BaseController(TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator)
         , IHandleMessageAsync<OpenStorageFileEvent>
         , IHandleMessage<OpenAboutWindowEvent>
         , IHandleMessage<VisitTwitterWebsiteEvent>
         , IHandleMessage<VisitHomepageSiteEvent>
     {
-        public TimePunchIntroPlayerWinUI3Controller() : base(TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator)
-        {
-
-        }
-
         #region OpenNewPages
 
         public void Handle(OpenAboutWindowEvent message)

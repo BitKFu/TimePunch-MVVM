@@ -20,13 +20,13 @@ namespace TimePunchIntroPlayer
         public MainWindow()
         {
             InitializeComponent();
-            IntroPlayerKernel.Get().EventAggregator.Subscribe(this);
+            IntroPlayerKernel.Instance.EventAggregator.Subscribe(this);
             PositionUpdateTimer = new Timer(OnUpdatePosition, null, 0, 1000);
         }
 
         ~MainWindow()
         {
-            IntroPlayerKernel.Get().EventAggregator.Unsubscribe(this);
+            IntroPlayerKernel.Instance.EventAggregator.Unsubscribe(this);
         }
 
         private static TimeSpan oldPosition;
@@ -38,7 +38,7 @@ namespace TimePunchIntroPlayer
             {
                 if (oldPosition != VideoPlayer.Position)
                 {
-                    IntroPlayerKernel.Get().EventAggregator.PublishMessage(new VideoPositionChangedEvent(VideoPlayer.Position));
+                    IntroPlayerKernel.Instance.EventAggregator.PublishMessage(new VideoPositionChangedEvent(VideoPlayer.Position));
                     oldPosition = VideoPlayer.Position;
                 }
             });
@@ -77,7 +77,7 @@ namespace TimePunchIntroPlayer
                 return;
             }
 
-            IntroPlayerKernel.Get().EventAggregator.PublishMessage(new MediaOpenedEvent());
+            IntroPlayerKernel.Instance.EventAggregator.PublishMessage(new MediaOpenedEvent());
             VideoPositonDefiner.Maximum = VideoPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
         }
 
@@ -89,7 +89,7 @@ namespace TimePunchIntroPlayer
 
         private void VideoPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            IntroPlayerKernel.Get().EventAggregator.PublishMessage(new MediaFailedEvent());
+            IntroPlayerKernel.Instance.EventAggregator.PublishMessage(new MediaFailedEvent());
         }
 
         #endregion

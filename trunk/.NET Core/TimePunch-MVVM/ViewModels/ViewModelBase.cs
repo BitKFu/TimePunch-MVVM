@@ -509,7 +509,8 @@ namespace TimePunch.MVVM.ViewModels
         ///     Adds the dependent notification.
         /// </summary>
         /// <param name="basePropertyName">Name of the base property.</param>
-        /// <param name="dependentCommands">The dependend commands.</param>
+        /// <param name="dependentCommands">The dependent commands.</param>
+        /// <exception cref="ArgumentNullException">Thrown when a dependent command is null.</exception>
         public virtual void AddPropertyChangedNotification(string basePropertyName, params ICommand[] dependentCommands)
         {
             IList<ICommand> notifications;
@@ -525,7 +526,12 @@ namespace TimePunch.MVVM.ViewModels
             }
 
             foreach (var notification in dependentCommands.Except(notifications))
+            {
+                if (notification == null)
+                    throw new ArgumentNullException(nameof(notification));
+
                 notifications.Add(notification);
+            }
         }
 
 #endregion

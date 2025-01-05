@@ -2,7 +2,8 @@
 
 namespace TimePunch.MVVM.Controller
 {
-    public interface IKernel
+    public interface IKernel<TProjectController>
+        where TProjectController : IBaseController
     {
         /// <summary>
         /// Gets the event aggregator.
@@ -14,6 +15,6 @@ namespace TimePunch.MVVM.Controller
         /// Gets the current used controller
         /// </summary>
         /// <returns></returns>
-        IBaseController Controller { get; }
+        TProjectController Controller { get; set; }
     }
 }

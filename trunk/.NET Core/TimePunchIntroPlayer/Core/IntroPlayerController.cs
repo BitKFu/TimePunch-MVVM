@@ -12,19 +12,15 @@ using TimePunchIntroPlayer.Events.About;
 
 namespace TimePunchIntroPlayer
 {
-    public class IntroPlayerController : BaseController
+    public class IntroPlayerKernel : Kernel<IntroPlayerKernel, IntroPlayerController>;
+
+    public class IntroPlayerController() : BaseController(IntroPlayerKernel.Instance.EventAggregator)
         , IHandleMessage<OpenFileDialogEvent>
         , IHandleMessage<MessageBoxEvent>
         , IHandleMessage<OpenAboutWindowEvent>
         , IHandleMessage<VisitTwitterWebsiteEvent>
         , IHandleMessage<VisitHomepageSiteEvent>
     {
-        public IntroPlayerController() : base(IntroPlayerKernel.Get().EventAggregator)
-        {
-
-        }
-
-
         //Events
         #region OpenFileDialog Events
         public void Handle(OpenFileDialogEvent message)
