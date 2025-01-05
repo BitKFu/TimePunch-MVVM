@@ -7,11 +7,20 @@ using TimePunch.MVVM.EventAggregation;
 
 namespace TimePunch.MVVM.Controller
 {
+    public interface IKernel<TProjectController> : IGenericKernel
+        where TProjectController : IBaseController
+    {
+        /// <summary>
+        /// Gets the current used controller
+        /// </summary>
+        /// <returns></returns>
+        TProjectController Controller { get; set; }
+    }
+
     public abstract class Kernel<TProjectKernel, TProjectController> : IKernel<TProjectController>
         where TProjectKernel : IKernel<TProjectController>, new()
         where TProjectController : IBaseController, new()
     {
-
         private static TProjectKernel? singleton;
 
         /// <summary>
@@ -24,8 +33,11 @@ namespace TimePunch.MVVM.Controller
                 if (singleton != null)
                     return singleton;
 
-                singleton = new TProjectKernel();
-                singleton.Controller = new();
+                // ReSharper disable once UseObjectOrCollectionInitializer
+                singleton = new TProjectKernel();   // not used, because of StackOverflowException
+                singleton.Controller = new TProjectController();
+
+                GenericKernel.Instance = singleton;
                 return singleton;
 
             }
@@ -43,5 +55,10 @@ namespace TimePunch.MVVM.Controller
         /// </summary>
         /// <returns></returns>
         public TProjectController Controller { get; set; } = default!;
+
+        /// <summary>
+        /// Gets the current used based controller
+        /// </summary>
+        IBaseController IGenericKernel.BaseController => Controller;
     }
 }

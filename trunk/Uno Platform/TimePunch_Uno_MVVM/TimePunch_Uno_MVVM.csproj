@@ -10,7 +10,7 @@
     <RootNamespace>TimePunch.MVVM</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>TimePunch-Uno-MVVM</PackageId>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
@@ -47,8 +47,8 @@
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\Commands\DynamicCommand.cs" Link="Commands\DynamicCommand.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\Commands\RelayCommand.cs" Link="Commands\RelayCommand.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\Controller\BaseController.cs" Link="Controller\BaseController.cs" />
+    <Compile Include="..\..\.NET Core\TimePunch-MVVM\Controller\GenericKernel.cs" Link="Controller\GenericKernel.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\Controller\IBaseController.cs" Link="Controller\IBaseController.cs" />
-    <Compile Include="..\..\.NET Core\TimePunch-MVVM\Controller\IKernel.cs" Link="Controller\IKernel.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\Controller\Kernel.cs" Link="Controller\Kernel.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\EventAggregation\EventAggregator.cs" Link="EventAggregation\EventAggregator.cs" />
     <Compile Include="..\..\.NET Core\TimePunch-MVVM\EventAggregation\IEventAggregator.cs" Link="EventAggregation\IEventAggregator.cs" />
