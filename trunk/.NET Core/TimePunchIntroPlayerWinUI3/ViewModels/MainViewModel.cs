@@ -24,7 +24,7 @@ namespace TimePunchIntroPlayerWinUI3.ViewModels
 
         #endregion
 
-        public MainViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator)
+        public MainViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator)
         {
         }
 
@@ -213,7 +213,7 @@ namespace TimePunchIntroPlayerWinUI3.ViewModels
 
         private void VideoPositionChanged(object state, object e)
         {
-            TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.PublishMessage(new SeekToPlayerPositionEvent(VideoPosition));
+            TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.PublishMessage(new SeekToPlayerPositionEvent(VideoPosition));
         }
 
         #endregion

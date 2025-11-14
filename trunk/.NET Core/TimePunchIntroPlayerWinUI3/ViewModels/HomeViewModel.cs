@@ -8,7 +8,7 @@ namespace TimePunchIntroPlayerWinUI3.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        public HomeViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator)
+        public HomeViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator)
         {
         }
 

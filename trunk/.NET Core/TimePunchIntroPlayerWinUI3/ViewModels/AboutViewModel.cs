@@ -9,7 +9,7 @@ namespace TimePunchIntroPlayerWinUI3.ViewModels
 {
     public class AboutViewModel : ViewModelBase
     {
-        public AboutViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator)
+        public AboutViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator)
         {
         }
 

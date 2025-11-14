@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimePunch.MVVM.EventAggregation;
+using System.Diagnostics;
 
 #if NET
 using Microsoft.UI.Dispatching;
@@ -23,7 +24,6 @@ using ThreadPool = Windows.System.Threading.ThreadPool;
 #endif
 
 #if NETFRAMEWORK
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using TimePunch.MVVM.Commands;
@@ -719,7 +719,7 @@ namespace TimePunch.MVVM.ViewModels
 
 #if DEBUG
             if (IsDisposed)
-                throw new ObjectDisposedException("ViewModel has already been disposed");
+                Debug.WriteLine($"ViewModel {GetType().FullName} has already been disposed");
 #endif
 
 #if NETFRAMEWORK

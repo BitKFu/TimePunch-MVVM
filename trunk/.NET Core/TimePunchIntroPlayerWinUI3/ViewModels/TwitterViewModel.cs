@@ -8,7 +8,7 @@ namespace TimePunchIntroPlayerWinUI3.ViewModels
 {
     public class TwitterViewModel : ViewModelBase
     {
-        public TwitterViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator)
+        public TwitterViewModel() : base(TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator)
         {
         }
 

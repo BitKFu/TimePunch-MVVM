@@ -29,7 +29,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
         public MainPage()
         {
             InitializeComponent();
-            TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.Subscribe(this);
+            TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.Subscribe(this);
 
             PositionUpdateTimer = new DispatcherTimer
             {
@@ -65,7 +65,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
             {
                 if (OldPosition != VideoPlayer.MediaPlayer.Position)
                 {
-                    TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.PublishMessage(new VideoPositionChangedEvent(VideoPlayer.MediaPlayer.Position));
+                    TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.PublishMessage(new VideoPositionChangedEvent(VideoPlayer.MediaPlayer.Position));
                     OldPosition = VideoPlayer.MediaPlayer.Position;
                 }
             }
@@ -119,7 +119,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
 
         private void VideoPlayer_MediaFailed(MediaPlayer sender, object e)
         {
-            TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.PublishMessage(new MediaFailedEvent());
+            TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.PublishMessage(new MediaFailedEvent());
         }
 
         private void VideoPlayer_MediaOpened(MediaPlayer sender, object e)
@@ -139,7 +139,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
                     VideoPlayer.MediaPlayer.Play();
                 }
 
-                TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.PublishMessage(new MediaOpenedEvent());
+                TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.PublishMessage(new MediaOpenedEvent());
                 VideoPositionDefiner.Maximum = VideoPlayer.MediaPlayer.NaturalDuration.TotalMilliseconds;
             });
         }
@@ -158,7 +158,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
             }
             catch (Exception e)
             {
-                TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.PublishMessage(new MessageBoxException(e.Message));
+                TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.PublishMessage(new MessageBoxException(e.Message));
             }
         }
 
@@ -186,7 +186,7 @@ namespace TimePunchIntroPlayerWinUI3.Pages
             {
                 if (disposing)
                 {
-                    TimePunchIntroPlayerWinUi3Kernel.Get().EventAggregator.Unsubscribe(this);
+                    TimePunchIntroPlayerWinUi3Kernel.Instance.EventAggregator.Unsubscribe(this);
                     PositionUpdateTimer.Stop();
                 }
 
