@@ -120,6 +120,7 @@ namespace TimePunch.MVVM.ViewModels
         ///     This method will be called every time the user navigates to the page
         /// </summary>
         /// <param name="extraData">The extra Data, if there's any. Otherwise NULL</param>
+        [Obsolete("Use InitializePageAsync instead.")]
         public abstract void InitializePage(object extraData);
 
         /// <summary>
@@ -127,7 +128,10 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         public virtual Task<bool> InitializePageAsync(object extraData)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             InitializePage(extraData);
+#pragma warning restore CS0618 // Type or member is obsolete
+
             return Task.FromResult(true);
         }
 
@@ -140,6 +144,7 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         /// <param name="extraData">The extra Data, if there's any. Otherwise NULL</param>
         /// <param name="dispatcher">Dispatcher of the page</param>
+        [Obsolete("Use InitializePageAsync instead.")]
         public virtual void InitializePage(object extraData, DispatcherQueue dispatcher)
         {
             Dispatcher = dispatcher;
@@ -150,7 +155,12 @@ namespace TimePunch.MVVM.ViewModels
         /// </summary>
         public virtual Task<bool> InitializePageAsync(object extraData, DispatcherQueue dispatcher)
         {
+            Dispatcher = dispatcher;
+
+#pragma warning disable CS0618 // Type or member is obsolete
             InitializePage(extraData, dispatcher);
+#pragma warning restore CS0618 // Type or member is obsolete
+
             return Task.FromResult(true);
         }
 

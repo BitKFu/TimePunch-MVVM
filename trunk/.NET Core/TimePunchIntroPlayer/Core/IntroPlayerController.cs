@@ -74,12 +74,12 @@ namespace TimePunchIntroPlayer
         #endregion
 
         #region OpenNewWindow Events
-        public void Handle(OpenAboutWindowEvent aboutWindowEvent)
+        public async void Handle(OpenAboutWindowEvent aboutWindowEvent)
         {
             var aboutWindow = new AboutWindow();
             if (aboutWindow.DataContext is AboutViewModel viewModel)
             {
-                viewModel.InitializePage(aboutWindowEvent);
+                await viewModel.InitializePageAsync(aboutWindowEvent);
             }
 
             var result = aboutWindow.ShowDialog();

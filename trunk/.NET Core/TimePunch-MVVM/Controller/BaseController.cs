@@ -125,7 +125,7 @@ namespace TimePunch.MVVM.Controller
         /// </summary>
         /// <param name="sender">The sending object</param>
         /// <param name="e">Navigating Event Args</param>
-        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
+        protected virtual async void OnNavigated(object sender, NavigationEventArgs e)
         {
             var page = e.Content as Page;
 
@@ -152,13 +152,13 @@ namespace TimePunch.MVVM.Controller
 #if NETFRAMEWORK
             // Initializes the Page if the DataContext is derived from the ViewModelBase
             if (page.DataContext is ViewModelBase viewModelBase)
-                viewModelBase.InitializePage(e.ExtraData);
+                await viewModelBase.InitializePageAsync(e.ExtraData);
 #endif
 
 #if NET
             // Initializes the Page if the DataContext is derived from the ViewModelBase
             if (page.DataContext is ViewModelBase viewModelBase)
-                viewModelBase.InitializePage(e.Parameter, page.DispatcherQueue);
+                await viewModelBase.InitializePageAsync(e.Parameter, page.DispatcherQueue);
 #endif
 
             EventAggregator.PublishMessage(new NavigatedEvent());
